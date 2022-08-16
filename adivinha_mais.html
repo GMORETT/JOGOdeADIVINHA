@@ -1,0 +1,95 @@
+<meta charset="UTF-8">
+<head>
+	<link rel="stylesheet" type="text/css" href="pag.css" media="screen" />
+</head>
+<h1>Jogo do adivinha os números, você deve acertar os dois números secretos que estão de 1 a 8.</h1>
+<h1>Você apenas pode errar 2 vezes!</h1>
+<input/>
+<button>Compare com o segredo</button>
+
+<script>
+
+	function sorteia() {
+
+		return Math.round(Math.random() * 8);
+	}
+
+	function sorteiaNumeros(quantidade) {
+
+		var segredos = [];
+
+		var numero = 1;
+
+		while(numero <= quantidade) {
+
+			var numeroAleatorio = sorteia();
+
+			if(numeroAleatorio !== 0 ) {
+
+				var achou = false;
+
+				for(var posicao = 0; posicao < segredos.length; posicao++) {
+
+					if(segredos[posicao] == numeroAleatorio) {
+						achou = true;
+						break;
+					}
+				}
+
+				if(achou == false) {
+					segredos.push(numeroAleatorio);	
+					numero++;
+				} 
+			}
+		}
+
+		return segredos;
+	}
+
+	var segredos = sorteiaNumeros(2);
+
+	console.log(segredos);
+
+	var input = document.querySelector("input");
+	input.focus();	
+
+	numerodeclicks = 0
+
+	function verifica() {
+
+		numerodeclicks++
+		
+			if(numerodeclicks > 2) {
+			alert("Você gastou todas as suas tentativas e perdeu no JOGO!")
+			return;
+			}
+		
+
+		var achou = false;
+
+		for(var posicao = 0; posicao < segredos.length; posicao++) {
+
+			if(input.value == segredos[posicao]) {
+
+				alert("Você ACERTOU!");
+				achou = true;
+				numerodeclicks--
+				break;
+			}
+		}
+
+		if(achou == false) {
+
+			alert("Você ERROU!");	
+		}
+		
+		input.value = "";
+		input.focus();		
+		
+	}
+
+	var button = document.querySelector("button");
+
+	button.onclick = verifica;
+
+</script>
